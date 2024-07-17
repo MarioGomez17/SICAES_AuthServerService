@@ -1,4 +1,4 @@
-package AuthServerService.Auth;
+package AuthServerService.Security;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
