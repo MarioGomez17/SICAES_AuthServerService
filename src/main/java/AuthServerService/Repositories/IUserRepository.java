@@ -8,4 +8,5 @@ import AuthServerService.Entities.UserEntity;
 @Repository
 public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
+    public UserEntity findByIdentificationNumber_UserAndPassword_User(String IdentificationNumber, String Password_User) throws Exception;
 }
