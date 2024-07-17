@@ -7,8 +7,6 @@ import AuthServerService.Repositories.IUserRepository;
 import AuthServerService.Services.ISessionService;
 import jakarta.transaction.Transactional;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -19,16 +17,14 @@ public class SessionServiceImplementation implements ISessionService {
 
     @Override
     @Transactional
-    public List<UserEntity> LogIn(String EmailUser, String PasswordUser) throws Exception {
-        return UserRepository.findAll();
+    public UserEntity LogIn(Long IdentificationNumber_User, String Password_User) throws Exception {
+        return UserRepository.findByIdentificationNumber_UserAndPassword_User(IdentificationNumber_User, Password_User);
     }
 
     @Override
     @Transactional
-    public UserEntity LogOut() throws Exception {
-        return null;
+    public boolean LogOut() throws Exception {
+        return true;
     }
-
-    
 
 }
