@@ -1,7 +1,13 @@
 package AuthServerService.Entities;
 
-import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
@@ -23,42 +29,57 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserEntity implements Serializable {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_User")
-    private Long Id_User;
+    private Long id;
 
     @Column(name = "FirstName_User")
     @Nonnull
-    private String FirstName_User;
+    private String firstName;
 
     @Column(name = "SecondName_User")
     @Nullable
-    private String SecondName_User;
+    private String secondName;
 
     @Column(name = "FirstLastName_User")
     @Nonnull
-    private String FirstLastName_User;
+    private String firstLastName;
 
     @Column(name = "SecondLastName_User")
     @Nullable
-    private String SecondLastName_User;
+    private String secondLastNamer;
 
     @ManyToOne
     @JoinColumn(name = "IdentificationType_User")
-    private IdentificationTypeEntity IdentificationType_User;
+    private IdentificationTypeEntity identificationType;
 
     @Column(name = "IdentificationNumber_User")
     @Nonnull
-    private Long IdentificationNumber_User;
+    private String identificationNumber;
 
     @Column(name = "Password_User")
     @Nonnull
-    private String Password_User;
+    private String password;
 
     @Column(name = "BirthDate_User")
     @Nonnull
-    private Date BirthDate_User;
+    private Date birthDate;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return identificationNumber;
+    }
 }
