@@ -2,12 +2,13 @@ package AuthServerService.ServicesImplementation;
 
 import org.springframework.stereotype.Service;
 
-import AuthServerService.Entities.UserEntity;
 import AuthServerService.Repositories.IUserRepository;
 import AuthServerService.Services.ISessionService;
-import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
 public class SessionServiceImplementation implements ISessionService {
@@ -16,15 +17,12 @@ public class SessionServiceImplementation implements ISessionService {
     private IUserRepository UserRepository;
 
     @Override
-    @Transactional
-    public UserEntity LogIn(Long IdentificationNumber_User, String Password_User) throws Exception {
-        return UserRepository.findByIdentificationNumber_UserAndPassword_User(IdentificationNumber_User, Password_User);
+    public UserDetailsService userDetails() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                return UserRepository.findByIdentificationNumber(username);
+            }
+        };
     }
-
-    @Override
-    @Transactional
-    public boolean LogOut() throws Exception {
-        return true;
-    }
-
 }
