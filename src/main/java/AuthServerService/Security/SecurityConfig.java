@@ -79,7 +79,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
-                .formLogin(Customizer.withDefaults());
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .permitAll());
         return http.build();
     }
 
@@ -166,7 +168,7 @@ public class SecurityConfig {
     OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
         return (context) -> {
             if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
-                UserEntity userSession = (UserEntity)(context.getPrincipal().getPrincipal());
+                UserEntity userSession = (UserEntity) (context.getPrincipal().getPrincipal());
                 Long idUser = userSession.getId();
                 String firstNameUser = userSession.getFirstName();
                 String firsLastNameUser = userSession.getFirstLastName();
